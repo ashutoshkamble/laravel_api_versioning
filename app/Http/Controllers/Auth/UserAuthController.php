@@ -42,7 +42,6 @@ class UserAuthController extends MasterApiController
     public function login(Request $request): JsonResponse
     {
         $loginUserData = $request->validate([
-            'message' => 'Successfully logged in!',
             'email' => 'required|string|email',
             'password' => 'required|min:8',
         ]);
@@ -56,6 +55,7 @@ class UserAuthController extends MasterApiController
         $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
 
         return response()->json([
+            'message' => 'Successfully logged in!',
             'accessToken' => $token,
             'token_type' => 'Bearer',
         ], Response::HTTP_ACCEPTED);
