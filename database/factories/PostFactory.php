@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\PostStatus;
+use App\Enums\UserRole;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +23,10 @@ class PostFactory extends Factory
             'title' => fake()->sentence(),
             'content' => fake()->paragraphs(3, true),
             'status' => fake()->randomElement(array_column(PostStatus::cases(), 'value')),
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            // Only assign created_by to users with ADMIN or EDITOR roles
+            'created_by' => fake()->randomElement(User::whereIn('role', [UserRole::ADMIN, UserRole::EDITOR])->pluck('id')->toArray()),
         ];
     }
 }
