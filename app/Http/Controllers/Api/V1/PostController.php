@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\MasterApiController;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\Api\V1\PostResource;
 use App\Models\Post;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends MasterApiController
 {
@@ -14,7 +16,14 @@ class PostController extends MasterApiController
      */
     public function index()
     {
-        //
+        $postCollection = PostResource::collection(Post::paginate(10));
+
+        return $this->successResponse(
+            // larevel pagination data
+            $postCollection->response()->getData(true),
+            'Posts retrieved successfully.',
+            Response::HTTP_OK
+        );
     }
 
     /**
