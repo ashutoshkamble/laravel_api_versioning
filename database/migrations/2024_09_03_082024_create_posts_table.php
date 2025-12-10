@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->string('status')->default(PostStatus::DRAFT->value);
+            $table->enum('status', array_column(PostStatus::cases(), 'value'))->default(PostStatus::DRAFT->value);
             $table->timestamps();
         });
     }
