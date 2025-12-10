@@ -57,4 +57,11 @@ class UserAuthController extends MasterApiController
             'token_type' => 'Bearer',
         ], Response::HTTP_ACCEPTED);
     }
+
+    public function logout(): JsonResponse
+    {
+        auth()->user()->tokens()->delete();
+
+        return $this->successResponse(null, 'Successfully logged out!', Response::HTTP_OK);
+    }
 }
