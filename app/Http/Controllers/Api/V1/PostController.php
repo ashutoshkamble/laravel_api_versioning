@@ -23,10 +23,20 @@ class PostController extends MasterApiController
             );
         }
 
-        $postCollection = PostResource::collection(Post::paginate(10));
+        $posts = Post::query();
+
+        $posts->when(auth()->user()->isEditor(), function ($query) {
+            $query->where('created_by', auth()->id());
+        });
+
+        $posts->when(auth()->user()->isViewer(), function ($query) {
+            $query->where('status', 'published');
+        });
+
+        $postCollection = PostResource::collection($posts->paginate(10));
 
         return $this->successResponse(
-            // larevel pagination data
+            // laravel pagination data
             $postCollection->response()->getData(true),
             'Posts retrieved successfully.',
             Response::HTTP_OK

@@ -16,7 +16,7 @@ class PostPolicy
         return null;
     }
 
-    public function viewAny(User $user, Post $post): bool
+    public function viewAny(User $user): bool
     {
         return true;
     }
