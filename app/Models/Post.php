@@ -9,6 +9,12 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'content',
+        'created_by',
+    ];
+
     /**
      * The attributes that should be cast.
      *

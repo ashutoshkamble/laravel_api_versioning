@@ -16,6 +16,13 @@ class PostController extends MasterApiController
      */
     public function index()
     {
+        if (auth()->user()->cannot('viewAny', Post::class)) {
+            return $this->errorResponse(
+                'You do not have permission to view posts.',
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $postCollection = PostResource::collection(Post::paginate(10));
 
         return $this->successResponse(
@@ -31,7 +38,23 @@ class PostController extends MasterApiController
      */
     public function store(StorePostRequest $request)
     {
-        //
+        if (auth()->user()->cannot('create', Post::class)) {
+            return $this->errorResponse(
+                'You do not have permission to create posts.',
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $post = Post::create(array_merge(
+            $request->validated(),
+            ['created_by' => auth()->id()]
+        ));
+
+        return $this->successResponse(
+            new PostResource($post),
+            'Post created successfully.',
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -39,7 +62,18 @@ class PostController extends MasterApiController
      */
     public function show(Post $post)
     {
-        //
+        if (auth()->user()->cannot('view', $post)) {
+            return $this->errorResponse(
+                'You do not have permission to view posts.',
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        return $this->successResponse(
+            new PostResource($post),
+            'Post retrieved successfully.',
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -47,7 +81,20 @@ class PostController extends MasterApiController
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        if (auth()->user()->cannot('update', $post)) {
+            return $this->errorResponse(
+                'You do not have permission to update this post.',
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $post->update($request->validated());
+
+        return $this->successResponse(
+            new PostResource($post),
+            'Post updated successfully.',
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -55,6 +102,19 @@ class PostController extends MasterApiController
      */
     public function destroy(Post $post)
     {
-        //
+        if (auth()->user()->cannot('delete', $post)) {
+            return $this->errorResponse(
+                'You do not have permission to delete this post.',
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $post->delete();
+
+        return $this->successResponse(
+            null,
+            'Post deleted successfully.',
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

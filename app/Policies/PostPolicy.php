@@ -7,12 +7,18 @@ use App\Models\User;
 
 class PostPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    public function before(User $user, string $ability): ?bool
     {
-        //
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return null;
+    }
+
+    public function viewAny(User $user, Post $post): bool
+    {
+        return true;
     }
 
     /**
@@ -20,7 +26,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -28,7 +34,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isEditor();
     }
 
     /**
@@ -36,7 +42,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        //
+        return $user->isEditor() && $post->created_by === $user->id;
     }
 
     /**
@@ -44,22 +50,6 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Post $post): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Post $post): bool
-    {
-        //
+        return $user->isAdmin();
     }
 }
