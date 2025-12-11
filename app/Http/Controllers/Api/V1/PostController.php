@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\Api\V1\PostResource;
 use App\Models\Post;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends MasterApiController
@@ -14,9 +15,9 @@ class PostController extends MasterApiController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (auth()->user()->cannot('viewAny', Post::class)) {
+        if ($request->user()->cannot('viewAny', Post::class)) {
             return $this->errorResponse(
                 'You do not have permission to view posts.',
                 Response::HTTP_FORBIDDEN
@@ -25,15 +26,23 @@ class PostController extends MasterApiController
 
         $posts = Post::query();
 
-        $posts->when(auth()->user()->isEditor(), function ($query) {
+        $posts->when($request->user()->isEditor(), function ($query) {
             $query->where('created_by', auth()->id());
         });
 
-        $posts->when(auth()->user()->isViewer(), function ($query) {
+        $posts->when($request->user()->isViewer(), function ($query) {
             $query->where('status', 'published');
         });
 
-        $postCollection = PostResource::collection($posts->paginate(10));
+        $posts->when($request->has('search'), function ($query) use ($request) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
+            });
+        });
+
+        $postCollection = PostResource::collection($posts->paginate(10)->withQueryString());
 
         return $this->successResponse(
             // laravel pagination data
