@@ -6,7 +6,7 @@ A comprehensive Laravel API application demonstrating best practices for version
 
 ### API Versioning
 - **API v1**: Simplified endpoints with basic functionality
-- **API v2**: Enhanced endpoints with advanced features comments on the posts
+- **API v2**: Enhanced endpoints with advanced features like add, update, delete comments on the posts
 - Easy version migration path for API consumers
 - Consistent versioning structure across all endpoints
 
