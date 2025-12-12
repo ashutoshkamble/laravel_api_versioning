@@ -7,8 +7,8 @@ use App\Http\Requests\Api\V2\StorePostRequest;
 use App\Http\Requests\Api\V2\UpdatePostRequest;
 use App\Http\Resources\Api\V2\PostResource;
 use App\Models\Post;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PostController extends MasterApiController
 {
