@@ -1,66 +1,413 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel API Versioning Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel API application demonstrating best practices for versioning REST APIs with two different API versions (v1 and v2) that showcase different levels of feature implementation and response formatting.
 
-## About Laravel
+## 🎯 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### API Versioning
+- **API v1**: Simplified endpoints with basic functionality
+- **API v2**: Enhanced endpoints with advanced features comments on the posts
+- Easy version migration path for API consumers
+- Consistent versioning structure across all endpoints
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Authentication
+- User registration and login
+- Token-based authentication using Laravel Sanctum
+- Secure endpoint protection for authenticated users
+- Logout functionality
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Core Resources
+- **Posts**: Create, read, update, delete blog posts
+- **Users**: Manage user profiles and view associated posts
+- **Comments**: Track comments on posts (extensible)
 
-## Learning Laravel
+### API Enhancements in V2
+- Post comments add, update, delete
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📋 Project Structure
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+laravel_api_versioning/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Api/
+│   │   │   │   ├── V1/
+│   │   │   │   │   ├── PostController.php
+│   │   │   │   │   └── UserController.php
+│   │   │   │   └── V2/
+│   │   │   │       ├── PostController.php
+│   │   │   │       └── UserController.php
+│   │   │   └── Auth/
+│   │   │       └── UserAuthController.php
+│   │   
+│   │   └── Resources/
+│   │       ├── Api/
+│   │       │   ├── V1/
+│   │       │   │   ├── PostResource.php
+│   │       │   │   └── UserResource.php
+│   │       │   └── V2/
+│   │       │       ├── PostResource.php
+│   │       │       └── UserResource.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Post.php
+│   │   └── Comment.php
+│   └── Traits/
+│       └── ApiResponser.php
+├── routes/
+│   ├── api.php (Main API routes)
+│   ├── api_v1.php
+│   └── api_v2.php
+├── database/
+│   ├── migrations/
+│   ├── factories/
+│   └── seeders/
+├── └── composer.json
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🚀 Installation
 
-## Laravel Sponsors
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- MySQL or SQLite
+- XAMPP (for local development)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Setup Steps
 
-### Premium Partners
+1. **Clone or download the project**
+```bash
+cd laravel_api_versioning
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Install dependencies**
+```bash
+composer install
+```
 
-## Contributing
+3. **Create environment file**
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Generate application key**
+```bash
+php artisan key:generate
+```
 
-## Code of Conduct
+5. **Configure database**
+Edit `.env` file and set your database credentials:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_api_versioning
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Run migrations**
+```bash
+php artisan migrate
+```
 
-## Security Vulnerabilities
+7. **Seed sample data (optional)**
+```bash
+php artisan db:seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8. **Start the development server**
+```bash
+php artisan serve
+```
 
-## License
+The API will be available at `http://localhost:8000/api/`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔐 Authentication
+
+### Register a User
+```http
+POST /api/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+### Login
+```http
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+### Logout
+```http
+POST /api/logout
+Authorization: Bearer {token}
+```
+
+## 📡 API Endpoints
+
+### API v1 - Basic Endpoints
+
+#### Posts
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/api/v1/posts` | No | List all posts (paginated) |
+| GET | `/api/v1/posts/{id}` | No | Get a single post |
+| POST | `/api/v1/posts` | Yes | Create a new post |
+| PUT | `/api/v1/posts/{id}` | Yes | Update a post |
+| DELETE | `/api/v1/posts/{id}` | Yes | Delete a post |
+
+### API v2 - Enhanced Endpoints
+
+#### Posts (with Advanced Features)
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/api/v2/posts` | No | List posts with filtering & sorting |
+| GET | `/api/v2/posts/{id}` | No | Get post with detailed metadata |
+| POST | `/api/v2/posts` | Yes | Create post with validation |
+| PUT | `/api/v2/posts/{id}` | Yes | Full update of post |
+| PATCH | `/api/v2/posts/{id}` | Yes | Partial update of post (NEW) |
+| DELETE | `/api/v2/posts/{id}` | Yes | Delete post |
+
+
+## 📝 Usage Examples
+
+### Create a Post (V1)
+```bash
+curl -X POST http://localhost:8000/api/v1/posts \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "My First Post",
+    "content": "This is the content of my first post",
+    "published": true
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "My First Post",
+    "content": "This is the content of my first post",
+    "published": true,
+    "user": {
+      "id": 1,
+      "name": "John Doe"
+    },
+    "created_at": "2025-12-12 10:30:45",
+    "updated_at": "2025-12-12 10:30:45"
+  }
+}
+```
+
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "My First Post",
+      "content": "This is the content of my first post",
+      "status": "published",
+      "published": true,
+      "author": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com"
+      },
+      "timestamps": {
+        "created_at": "2025-12-12T10:30:45Z",
+        "updated_at": "2025-12-12T10:30:45Z",
+        "created_at_human": "5 minutes ago",
+        "updated_at_human": "5 minutes ago"
+      },
+      "metadata": {
+        "url": "http://localhost:8000/api/v2/posts/1",
+        "type": "post"
+      }
+    }
+  ],
+  "meta": {
+    "total": 1,
+    "per_page": 10,
+    "current_page": 1,
+    "last_page": 1,
+    "from": 1,
+    "to": 1
+  },
+  "links": {
+    "first": "http://localhost:8000/api/v2/posts?page=1",
+    "last": "http://localhost:8000/api/v2/posts?page=1",
+    "prev": null,
+    "next": null
+  }
+}
+```
+
+### Partial Update Post (V2 PATCH)
+```bash
+curl -X PATCH http://localhost:8000/api/v2/posts/1 \
+  -H "Authorization: Bearer {token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Title"
+  }'
+```
+
+### Get User with Statistics (V2)
+```bash
+curl http://localhost:8000/api/v2/users/1
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "profile": {
+      "posts_count": 5,
+      "published_posts": 4,
+      "draft_posts": 1,
+      "member_since": "2025-12-10"
+    },
+    "timestamps": {
+      "created_at": "2025-12-10T08:15:30Z",
+      "updated_at": "2025-12-12T10:30:45Z"
+    },
+    "metadata": {
+      "url": "http://localhost:8000/api/v2/users/1",
+      "type": "user",
+      "posts_url": "http://localhost:8000/api/v2/posts?user_id=1"
+    }
+  },
+  "stats": {
+    "total_posts": 5,
+    "published_posts": 4,
+    "draft_posts": 1
+  }
+}
+```
+
+## 🛡️ Authorization
+
+The application uses Laravel's built-in authorization system with a `PostPolicy` class to control:
+- Users can only update/delete their own posts
+- Public endpoints are accessible without authentication
+- Protected endpoints require a valid API token
+
+## 📝 Database Schema
+
+### Users Table
+- id
+- name
+- email
+- password
+- email_verified_at
+- created_at
+- updated_at
+
+### Posts Table
+- id
+- user_id (foreign key)
+- title
+- content
+- published (boolean)
+- created_at
+- updated_at
+
+### Comments Table
+- id
+- post_id (foreign key)
+- user_id (foreign key)
+- content
+- created_at
+- updated_at
+
+## 🐛 Debugging
+
+Enable debug mode in `.env`:
+```env
+APP_DEBUG=true
+```
+
+View logs:
+```bash
+tail -f storage/logs/laravel.log
+```
+
+## 📦 Dependencies
+
+- **Laravel 11+**: Web framework
+- **Laravel Sanctum**: API authentication
+- **PHPUnit**: Testing framework
+- **Faker**: Sample data generation
+
+## 🚦 Request/Response Headers
+
+Every API response includes:
+```
+X-API-Version: v1 or v2
+X-API-Timestamp: 2025-12-12T10:30:45Z
+Content-Type: application/json
+```
+
+## 🔗 Related Files
+
+- [Routes Configuration](routes/api.php)
+- [V1 Controllers](app/Http/Controllers/Api/V1/)
+- [V2 Controllers](app/Http/Controllers/Api/V2/)
+- [API Resources](app/Http/Resources/Api/)
+
+## 📄 License
+
+This is a sample application for educational purposes.
+
+## 🤝 Contributing
+
+This is a sample/learning project. Feel free to fork and modify for your own use.
+
+## 📞 Support
+
+For issues or questions about API versioning in Laravel:
+1. Review the controller implementations
+2. Inspect the resource classes for response formatting
+
+---
+
+**Last Updated:** December 12, 2025  
+**Laravel Version:** 11.x  
+**PHP Version:** 8.2+
