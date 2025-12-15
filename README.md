@@ -4,6 +4,7 @@ A powerful, production-ready REST API for a comprehensive blog management platfo
 
 ## 🌟 Features
 
+<<<<<<< HEAD
 ### Core Capabilities
 - **Route-Based API Versioning**: Seamless management of V1 and V2 endpoints with clear separation of concerns
 - **Blog Post CRUD Operations**: Complete create, read, update, and delete functionality with full authorization support
@@ -15,6 +16,13 @@ A powerful, production-ready REST API for a comprehensive blog management platfo
 - **Policy-Based Authorization**: Fine-grained authorization using Laravel Policies
 - **Centralized Exception Handling**: Professional error handling with consistent response formats
 - **Enum-Based Constants**: Type-safe enums for PostStatus and UserRole
+=======
+### API Versioning
+- **API v1**: Simplified endpoints with basic functionality
+- **API v2**: Enhanced endpoints with advanced features like add, update, delete comments on the posts
+- Easy version migration path for API consumers
+- Consistent versioning structure across all endpoints
+>>>>>>> 28860011ff4cf9f53c322217ca4ede1f8303e199
 
 ### Technical Highlights
 - **Master Controller Pattern**: Centralized `MasterApiController` with shared functionality
