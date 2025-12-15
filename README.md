@@ -1,37 +1,73 @@
+
 # Laravel API Versioning - Blog Platform
 
 A powerful, production-ready REST API for a comprehensive blog management platform with robust versioning, role-based access control, and comprehensive comment management. Built with Laravel 11 and utilizing best practices for API design, security, and maintainability.
 
 ## 🌟 Features
 
-<<<<<<< HEAD
-### Core Capabilities
-- **Route-Based API Versioning**: Seamless management of V1 and V2 endpoints with clear separation of concerns
-- **Blog Post CRUD Operations**: Complete create, read, update, and delete functionality with full authorization support
-- **Advanced Search & Pagination**: Efficiently search and paginate through blog posts with customizable pagination
-- **Comment Management System**: Nested comment CRUD operations with hierarchical control
-- **Resource-Based Responses**: Structured API responses using Laravel Resource classes for consistent data formatting
-- **Role-Based Access Control**: Three distinct user roles with granular permission management
-- **Form Validation**: Custom request classes with comprehensive validation rules
-- **Policy-Based Authorization**: Fine-grained authorization using Laravel Policies
-- **Centralized Exception Handling**: Professional error handling with consistent response formats
-- **Enum-Based Constants**: Type-safe enums for PostStatus and UserRole
-=======
 ### API Versioning
 - **API v1**: Simplified endpoints with basic functionality
-- **API v2**: Enhanced endpoints with advanced features like add, update, delete comments on the posts
+- **API v2**: Enhanced endpoints with advanced features comments on the posts
 - Easy version migration path for API consumers
 - Consistent versioning structure across all endpoints
->>>>>>> 28860011ff4cf9f53c322217ca4ede1f8303e199
 
-### Technical Highlights
-- **Master Controller Pattern**: Centralized `MasterApiController` with shared functionality
-- **API Response Trait**: Reusable `ApiResponser` trait for consistent JSON responses
-- **Database Seeders**: Automated seeding for quick development and testing
-- **Trait-Based Patterns**: Effective use of PHP traits for code reusability
-- **Clear Folder Structure**: Version-specific organization for scalability
+### Authentication
+- User registration and login
+- Token-based authentication using Laravel Sanctum
+- Secure endpoint protection for authenticated users
+- Logout functionality
 
-## 🚀 Quick Start
+### Core Resources
+- **Posts**: Create, read, update, delete blog posts
+- **Users**: Manage user profiles and view associated posts
+- **Comments**: Track comments on posts (extensible)
+
+### API Enhancements in V2
+- Post comments add, update, delete
+
+## 📋 Project Structure
+
+```
+laravel_api_versioning/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Api/
+│   │   │   │   ├── V1/
+│   │   │   │   │   ├── PostController.php
+│   │   │   │   │   └── UserController.php
+│   │   │   │   └── V2/
+│   │   │   │       ├── PostController.php
+│   │   │   │       └── UserController.php
+│   │   │   └── Auth/
+│   │   │       └── UserAuthController.php
+│   │   
+│   │   └── Resources/
+│   │       ├── Api/
+│   │       │   ├── V1/
+│   │       │   │   ├── PostResource.php
+│   │       │   │   └── UserResource.php
+│   │       │   └── V2/
+│   │       │       ├── PostResource.php
+│   │       │       └── UserResource.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Post.php
+│   │   └── Comment.php
+│   └── Traits/
+│       └── ApiResponser.php
+├── routes/
+│   ├── api.php (Main API routes)
+│   ├── api_v1.php
+│   └── api_v2.php
+├── database/
+│   ├── migrations/
+│   ├── factories/
+│   └── seeders/
+├── └── composer.json
+```
+
+## 🚀 Installation
 
 ### Prerequisites
 - PHP 8.2 or higher
